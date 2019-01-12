@@ -4,6 +4,7 @@ import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import ru.hse.app.config.AppProperties;
 
@@ -11,9 +12,9 @@ public class CoordSystem extends Group {
 
     private CoordAxe axeOX;
     private CoordAxe axeOY;
-    private PerspectiveCamera camera;
+    private MemoryCamera camera;
     private AppProperties appProperties = AppProperties.getInstance();
-    private double cameraStrartZ = appProperties.getWindowHeight() * 0.35;
+    private double cameraStartZ = appProperties.getWindowHeight() * 0.35;
 
     public CoordSystem() {
         initialize();
@@ -45,33 +46,32 @@ public class CoordSystem extends Group {
     }
 
     private void createCamera() {
-        camera = new PerspectiveCamera(true);
+        camera = new MemoryCamera(true);
         camera.setTranslateX(0);
         camera.setTranslateY(0);
-        camera.setTranslateZ(cameraStrartZ);
+        camera.setTranslateZ(cameraStartZ);
         camera.setFarClip(appProperties.getFarClip());
         camera.rotationAxisProperty().bind(super.rotationAxisProperty());
         camera.rotateProperty().bind(super.rotateProperty());
         camera.setFieldOfView(appProperties.getCameraAngle());
+        camera.updateLastPosition();
+
+        Circle controlPoint = new Circle(3);
+        controlPoint.setFill(Paint.valueOf("RED"));
+        controlPoint.translateXProperty().bind(camera.translateXProperty());
+        controlPoint.translateYProperty().bind(camera.translateYProperty());
+        controlPoint.setTranslateZ(1);
 
         Group cameraGroup = new Group();
-        cameraGroup.getChildren().add(camera);
+        cameraGroup.getChildren().addAll(camera, controlPoint);
 
         super.getChildren().add(cameraGroup);
     }
 
     private void bindAxesToCamera() {
-        axeOY.getLine().endYProperty().bind(camera.translateZProperty());
-        axeOY.getLine().startYProperty().bind(camera.translateZProperty().negate());
-        axeOX.getLine().endXProperty().bind(camera.translateZProperty()
-                .multiply(appProperties.getWindowWidth() / 2)
-                .divide(cameraStrartZ));
-        axeOX.getLine().startXProperty().bind(camera.translateZProperty()
-                .multiply(appProperties.getWindowWidth() / 2)
-                .divide(cameraStrartZ)
-                .negate());
         axeOX.getLine().strokeWidthProperty().bind(camera.translateZProperty().divide(100).add(1));
         axeOY.getLine().strokeWidthProperty().bind(camera.translateZProperty().divide(100).add(1));
+
         camera.translateZProperty().addListener(e -> {
             axeOX.getLabel().setFont(Font.font(camera.getTranslateZ() / 12));
             axeOY.getLabel().setFont(Font.font(camera.getTranslateZ() / 12));
@@ -79,19 +79,19 @@ public class CoordSystem extends Group {
         axeOX.getLabel().translateXProperty().bind(axeOX.getLine().endXProperty()
                 .subtract(camera.translateZProperty()
                         .multiply(20)
-                        .divide(cameraStrartZ)));
+                        .divide(cameraStartZ)));
         axeOX.getLabel().translateYProperty().bind(axeOX.getLine().endYProperty()
                 .add(camera.translateZProperty()
                         .multiply(10)
-                        .divide(cameraStrartZ)));
+                        .divide(cameraStartZ)));
         axeOY.getLabel().translateXProperty().bind(axeOY.getLine().endXProperty()
                 .add(camera.translateZProperty()
                         .multiply(15)
-                        .divide(cameraStrartZ)));
+                        .divide(cameraStartZ)));
         axeOY.getLabel().translateYProperty().bind(axeOY.getLine().endYProperty()
                 .subtract(camera.translateZProperty()
                         .multiply(30)
-                        .divide(cameraStrartZ)));
+                        .divide(cameraStartZ)));
     }
 
     public CoordAxe getAxeOX() {
