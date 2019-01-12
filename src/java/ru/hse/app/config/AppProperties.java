@@ -14,9 +14,9 @@ public class AppProperties {
     private AppProperties() {
         try {
             init();
-            System.out.println("AppProperties was initialized");
+            System.out.println("App properties was initialized");
         } catch (Exception e) {
-            System.err.println("AppProperties was not initialized");
+            System.err.println("App properties was not initialized");
             System.err.println(e.getMessage());
         }
     }
@@ -52,5 +52,16 @@ public class AppProperties {
         return Integer.parseInt(prop.getProperty("app.window.height"));
     }
 
+    public double getScrollOffset() {
+        return Double.parseDouble(prop.getProperty("app.camera.offset"));
+    }
+
+    public double getFarClip() {
+        return Double.parseDouble(prop.getProperty("app.camera.far.clip"));
+    }
+
+    public double getCameraAngle() {
+        return Double.parseDouble(prop.getProperty("app.camera.angle"));
+    }
 
 }
