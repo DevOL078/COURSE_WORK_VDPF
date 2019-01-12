@@ -1,5 +1,8 @@
 package ru.hse.app.domain;
 
+import javafx.beans.binding.DoubleExpression;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.shape.Line;
@@ -20,29 +23,32 @@ public class CoordAxe extends Group {
     private void createTails(double arrowLength, double arrowWidth) {
         Line arrow1 = new Line();
         Line arrow2 = new Line();
-        double sx = line.getStartX();
-        double sy = line.getStartY();
-        double ex = line.getEndX();
-        double ey = line.getEndY();
 
-        arrow1.setEndX(ex);
-        arrow1.setEndY(ey);
-        arrow2.setEndX(ex);
-        arrow2.setEndY(ey);
+        DoubleProperty sx = line.startXProperty();
+        DoubleProperty sy = line.startYProperty();
+        DoubleProperty ex = line.endXProperty();
+        DoubleProperty ey = line.endYProperty();
 
-        double factor = arrowLength / Math.sqrt((sx-sy)*(sx-sy) + (ex-ey)*(ex-ey));
-        double factorO = arrowWidth / Math.sqrt((sx-sy)*(sx-sy) + (ex-ey)*(ex-ey));
+        arrow1.endXProperty().bind(ex);
+        arrow1.endYProperty().bind(ey);
+        arrow2.endXProperty().bind(ex);
+        arrow2.endYProperty().bind(ey);
 
-        double dx = (sx - ex) * factor;
-        double dy = (sy - ey) * factor;
+        DoubleExpression sub1 = DoubleProperty.doubleExpression(sx.subtract(sy).multiply(sx.subtract(sy)));
+        DoubleExpression sub2 = DoubleProperty.doubleExpression(ex.subtract(ey).multiply(ex.subtract(ey)));
+        DoubleExpression sqrt = DoubleProperty.doubleExpression(new SimpleDoubleProperty(Math.sqrt(sub1.add(sub2).get())));
+        DoubleExpression factor = DoubleProperty.doubleExpression(new SimpleDoubleProperty(arrowLength).divide(sqrt));
+        DoubleExpression factorO = DoubleProperty.doubleExpression(new SimpleDoubleProperty(arrowWidth).divide(sqrt));
 
-        double ox = (sx - ex) * factorO;
-        double oy = (sy - ey) * factorO;
+        DoubleExpression dx = sx.subtract(ex).multiply(factor);
+        DoubleExpression dy = sy.subtract(ey).multiply(factor);
+        DoubleExpression ox = sx.subtract(ex).multiply(factorO);
+        DoubleExpression oy = sy.subtract(ey).multiply(factorO);
 
-        arrow1.setStartX(ex + dx - oy);
-        arrow1.setStartY(ey + dy + ox);
-        arrow2.setStartX(ex + dx + oy);
-        arrow2.setStartY(ey + dy - ox);
+        arrow1.startXProperty().bind(ex.add(dx).subtract(oy));
+        arrow1.startYProperty().bind(ey.add(dy).add(ox));
+        arrow2.startXProperty().bind(ex.add(dx).add(oy));
+        arrow2.startYProperty().bind(ey.add(dy).subtract(ox));
 
         arrow1.strokeWidthProperty().bind(line.strokeWidthProperty());
         arrow2.strokeWidthProperty().bind(line.strokeWidthProperty());
@@ -55,21 +61,6 @@ public class CoordAxe extends Group {
     private void createLabel(String labelText) {
         label = new Label(labelText);
         label.setFont(Font.font(18));
-        switch(labelText) {
-            case "X": {
-                label.translateXProperty().bind(line.endXProperty().subtract(20));
-                label.translateYProperty().bind(line.endYProperty().add(10));
-                break;
-            }
-            case "Y": {
-                label.translateXProperty().bind(line.endXProperty().add(15));
-                label.translateYProperty().bind(line.endYProperty().subtract(30));
-                break;
-            }
-            default: {
-                return;
-            }
-        }
         super.getChildren().add(label);
     }
 
