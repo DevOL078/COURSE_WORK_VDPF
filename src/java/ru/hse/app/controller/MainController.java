@@ -1,19 +1,24 @@
 package ru.hse.app.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.PerspectiveCamera;
+import javafx.scene.Group;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import javafx.stage.FileChooser;
 import ru.hse.app.config.AppProperties;
 import ru.hse.app.domain.CoordAxe;
 import ru.hse.app.domain.CoordSystem;
 import ru.hse.app.domain.MemoryCamera;
+import ru.hse.app.main.Main;
+import ru.hse.app.visualization.VisualizationManager;
+
+import java.io.*;
 
 public class MainController {
 
@@ -24,10 +29,34 @@ public class MainController {
     private Pane workPane;
 
     @FXML
-    private GridPane buttonsGrid;
+    private Button loadButton;
+
+    @FXML
+    private Button saveButton;
+
+    @FXML
+    private Button zoomMinusButton;
+
+    @FXML
+    private Button zoomPlusButton;
+
+    @FXML
+    private Button pointsSizeButton;
+
+    @FXML
+    private Button pointsColorButton;
+
+    @FXML
+    private Button pointsTypeButton;
+
+    @FXML
+    private Button dynamicAnimationButton;
 
     @FXML
     private TextField selectionTextField;
+
+    @FXML
+    private Button changeSelectionButton;
 
     private CoordSystem coordSystem;
     private AppProperties appProperties = AppProperties.getInstance();
@@ -48,10 +77,6 @@ public class MainController {
 
         settingScroll(appProperties.getScrollOffset());
         settingCameraMoving();
-
-        Circle testPoint = new Circle(50, 50, 10);
-        testPoint.setFill(Paint.valueOf("YELLOW"));
-        coordSystem.getChildren().add(testPoint);
     }
 
     private void settingScroll(double offset) {
@@ -118,6 +143,23 @@ public class MainController {
 
 
         camera.updateLastPosition();
+    }
+
+    public void onLoadButtonClick() {
+        FileChooser fileChooser = new FileChooser();
+        File inputFile = fileChooser.showOpenDialog(Main.getStage());
+        if(inputFile == null) {
+            return;
+        }
+        try {
+            Group visualization = VisualizationManager.getInstance().buildVisualization(inputFile.getAbsolutePath());
+            coordSystem.getChildren().add(visualization);
+            System.out.println("Points created: " + visualization.getChildren().size());
+        } catch (FileNotFoundException e) {
+            System.err.println("File choosing error");
+        } catch (Exception e) {
+            System.err.println("Points reading error");
+        }
     }
 
 }

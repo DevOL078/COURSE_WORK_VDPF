@@ -21,7 +21,6 @@ public class PointsReader {
         while((line = reader.readLine()) != null) {
             Point point = parser.parse(line);
             points.add(point);
-            System.out.printf("New point: %f %f %f\n", point.getT(), point.getX(), point.getY());
         }
         return points;
     }

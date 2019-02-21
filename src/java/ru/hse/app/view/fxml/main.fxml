@@ -38,42 +38,42 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Загрузить" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                  <Button fx:id="loadButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#onLoadButtonClick" text="Загрузить" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                      <font>
                         <Font name="Calibri" size="18.0" />
                      </font>
                   </Button>
-                  <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Сохранить" GridPane.columnIndex="1">
+                  <Button fx:id="saveButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Сохранить" GridPane.columnIndex="1">
                      <font>
                         <Font name="Calibri" size="18.0" />
                      </font>
                   </Button>
-                  <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Уменьшить" GridPane.columnIndex="2">
+                  <Button fx:id="zoomMinusButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Уменьшить" GridPane.columnIndex="2">
                      <font>
                         <Font name="Calibri" size="18.0" />
                      </font>
                   </Button>
-                  <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Увеличить" GridPane.columnIndex="3">
+                  <Button fx:id="zoomPlusButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Увеличить" GridPane.columnIndex="3">
                      <font>
                         <Font name="Calibri" size="18.0" />
                      </font>
                   </Button>
-                  <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Размер точек" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="4">
+                  <Button fx:id="pointsSizeButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Размер точек" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="4">
                      <font>
                         <Font name="Calibri" size="18.0" />
                      </font>
                   </Button>
-                  <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Точки" GridPane.columnIndex="5">
+                  <Button fx:id="pointsColorButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Цвет точек" GridPane.columnIndex="5">
                      <font>
                         <Font name="Calibri" size="18.0" />
                      </font>
                   </Button>
-                  <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Цвет" GridPane.columnIndex="6">
+                  <Button fx:id="pointsTypeButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Тип точек" GridPane.columnIndex="6">
                      <font>
                         <Font name="Calibri" size="18.0" />
                      </font>
                   </Button>
-                  <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Выделение" GridPane.columnIndex="7">
+                  <Button fx:id="dynamicAnimationButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Анимация" GridPane.columnIndex="7">
                      <font>
                         <Font name="Calibri" size="18.0" />
                      </font>
@@ -100,7 +100,7 @@
                         <Font size="24.0" />
                      </font>
                   </TextField>
-                  <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Построить" GridPane.columnIndex="2">
+                  <Button fx:id="changeSelectionButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Изменить выборку" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2">
                      <font>
                         <Font name="Calibri" size="18.0" />
                      </font>

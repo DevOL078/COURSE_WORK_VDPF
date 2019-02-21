@@ -9,8 +9,11 @@ import ru.hse.app.config.AppProperties;
 
 public class Main extends Application {
 
+    private static Stage stage;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
+        stage = primaryStage;
         Parent root = FXMLLoader.load(getClass().getResource(AppProperties.getInstance().getMainFXMLPath()));
         primaryStage.setTitle(AppProperties.getInstance().getAppTitle());
         primaryStage.setScene(new Scene(root,
@@ -21,6 +24,10 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public static Stage getStage() {
+        return stage;
     }
 
 }
