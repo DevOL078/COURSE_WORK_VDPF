@@ -1,9 +1,7 @@
 package ru.hse.app.config;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Properties;
-import java.io.File;
 
 public class AppProperties {
 
@@ -64,4 +62,27 @@ public class AppProperties {
         return Double.parseDouble(prop.getProperty("app.camera.angle"));
     }
 
+    public double getPointSize() {return Double.parseDouble(prop.getProperty("app.point.size"));}
+
+    public String getPointColor() {return prop.getProperty("app.point.color");}
+
+    public void setPointSize(double value) {
+        prop.setProperty("app.point.size", String.valueOf(value));
+        storeConfigs();
+    }
+
+    public void setPointColor(String color) {
+        prop.setProperty("app.point.color", color);
+        storeConfigs();
+    }
+
+    private void storeConfigs() {
+        try {
+            prop.store(new FileOutputStream(configFilePath), "Last changing");
+            System.out.println("New configurations saved");
+        } catch (IOException e) {
+            System.err.println("Store error");
+            e.printStackTrace();
+        }
+    }
 }

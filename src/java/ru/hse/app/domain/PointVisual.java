@@ -5,6 +5,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import ru.hse.app.info.InfoManager;
 import ru.hse.app.info.InfoPane;
+import ru.hse.app.settings.VisualizationSettings;
 
 public class PointVisual extends Group {
 
@@ -21,8 +22,11 @@ public class PointVisual extends Group {
     }
 
     private void initCircle() {
-        circle = new Circle(point.getX(), point.getY(), 10);    //TODO (перенести радиус в настройки)
-        circle.setFill(Paint.valueOf("YELLOW"));                               //TODO (перенести цвет в настройки)
+        circle = new Circle();
+        circle.setCenterX(point.getX());
+        circle.setCenterY(point.getY());
+        circle.radiusProperty().bind(VisualizationSettings.getInstance().getPointSize());
+        circle.setFill(VisualizationSettings.getInstance().getPointColorPaint());
         circle.setStroke(Paint.valueOf("BLACK"));                              //TODO (перенести цвет контура в настройки)
         circle.setStrokeWidth(2);
         super.getChildren().add(circle);
@@ -48,5 +52,7 @@ public class PointVisual extends Group {
     public InfoPane getInfoPane() {
         return this.infoPane;
     }
+
+    public Circle getCircle() {return this.circle;}
 
 }

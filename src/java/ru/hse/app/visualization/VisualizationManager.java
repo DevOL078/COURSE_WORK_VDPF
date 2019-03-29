@@ -10,6 +10,7 @@ public class VisualizationManager {
 
     private VisualizationSettings visualizationSettings = VisualizationSettings.getInstance();
     private static VisualizationManager instance = new VisualizationManager();
+    private Group visualizationGroup;
 
     private VisualizationManager() {
     }
@@ -25,12 +26,11 @@ public class VisualizationManager {
 
         //Selection
 
-        return new BuildingVisualizationJob().build(points);
+        visualizationGroup = new BuildingVisualizationJob().build(points);
+        return visualizationGroup;
     }
 
-
-
-
-
-
+    public Group getVisualizationGroup() {
+        return visualizationGroup;
+    }
 }

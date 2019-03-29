@@ -1,11 +1,6 @@
 package ru.hse.app.visualization;
 
-import javafx.geometry.Point3D;
 import javafx.scene.Group;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
 import ru.hse.app.domain.Point;
 import ru.hse.app.domain.PointVisual;
 

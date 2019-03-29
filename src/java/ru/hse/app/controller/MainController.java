@@ -5,16 +5,19 @@ import javafx.scene.Group;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import ru.hse.app.config.AppProperties;
 import ru.hse.app.domain.CoordAxe;
 import ru.hse.app.domain.CoordSystem;
 import ru.hse.app.domain.MemoryCamera;
-import ru.hse.app.info.InfoManager;
 import ru.hse.app.main.Main;
+import ru.hse.app.settings.VisualizationSettings;
 import ru.hse.app.visualization.VisualizationManager;
 
 import java.io.*;
@@ -31,7 +34,10 @@ public class MainController {
     private Button loadButton;
 
     @FXML
-    private Button saveButton;
+    private Button settingsButton;
+
+    @FXML
+    private GridPane settingsPane;
 
     @FXML
     private Button zoomMinusButton;
@@ -57,6 +63,12 @@ public class MainController {
     @FXML
     private Button changeSelectionButton;
 
+    @FXML
+    private TextField pointSizeTextField;
+
+    @FXML
+    private ColorPicker pointColorPicker;
+
     private CoordSystem coordSystem;
     private AppProperties appProperties = AppProperties.getInstance();
     private double mousePosX;
@@ -76,6 +88,35 @@ public class MainController {
 
         settingScroll(appProperties.getScrollOffset());
         settingCameraMoving();
+
+        initSettingsValues();
+        initSettingsHandlers();
+    }
+
+    private void initSettingsValues() {
+        pointSizeTextField.setText(
+                String.valueOf(
+                        VisualizationSettings.getInstance().getPointSize().get()
+                )
+        );
+        pointColorPicker.setValue(
+                Color.valueOf(
+                        VisualizationSettings.getInstance().getPointColor().get()
+                )
+        );
+    }
+
+    private void initSettingsHandlers() {
+        pointSizeTextField.setOnAction(e -> {
+            double value = Double.parseDouble(pointSizeTextField.getText());
+            VisualizationSettings.getInstance().getPointSize().set(value);
+        });
+        pointColorPicker.setOnAction(e -> {
+            Color color = pointColorPicker.getValue();
+            String value = color.toString();
+            String rgbValue = value.substring(2, 8);
+            VisualizationSettings.getInstance().getPointColor().set(rgbValue);
+        });
     }
 
     private void settingScroll(double offset) {
@@ -159,6 +200,10 @@ public class MainController {
         } catch (Exception e) {
             System.err.println("Points reading error");
         }
+    }
+
+    public void onSettingsButtonClick() {
+        settingsPane.setVisible(!settingsPane.isVisible());
     }
 
 }
