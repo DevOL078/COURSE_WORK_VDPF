@@ -4,7 +4,6 @@ import javafx.scene.Group;
 import ru.hse.app.domain.Point;
 import ru.hse.app.settings.VisualizationSettings;
 
-import java.io.FileNotFoundException;
 import java.util.List;
 
 public class VisualizationManager {
@@ -20,11 +19,11 @@ public class VisualizationManager {
     }
 
     public Group buildVisualization(String filePath) throws Exception {
-       LoadingPointsJob loader = new LoadingPointsJob();
-       List<Point> points = loader.loadPoints(filePath);
+        LoadingPointsJob loader = new LoadingPointsJob();
+        List<Point> points = loader.loadPoints(filePath);
         System.out.println("Points loaded: " + points.size());
 
-       //Selection
+        //Selection
 
         return new BuildingVisualizationJob().build(points);
     }

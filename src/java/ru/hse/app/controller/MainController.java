@@ -8,13 +8,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import ru.hse.app.config.AppProperties;
 import ru.hse.app.domain.CoordAxe;
 import ru.hse.app.domain.CoordSystem;
 import ru.hse.app.domain.MemoryCamera;
+import ru.hse.app.info.InfoManager;
 import ru.hse.app.main.Main;
 import ru.hse.app.visualization.VisualizationManager;
 

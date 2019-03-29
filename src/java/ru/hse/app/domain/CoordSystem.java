@@ -56,14 +56,14 @@ public class CoordSystem extends Group {
         camera.setFieldOfView(appProperties.getCameraAngle());
         camera.updateLastPosition();
 
-        Circle controlPoint = new Circle(3);
-        controlPoint.setFill(Paint.valueOf("RED"));
-        controlPoint.translateXProperty().bind(camera.translateXProperty());
-        controlPoint.translateYProperty().bind(camera.translateYProperty());
-        controlPoint.setTranslateZ(1);
+//        Circle controlPoint = new Circle(3);
+//        controlPoint.setFill(Paint.valueOf("RED"));
+//        controlPoint.translateXProperty().bind(camera.translateXProperty());
+//        controlPoint.translateYProperty().bind(camera.translateYProperty());
+//        controlPoint.setTranslateZ(1);
 
         Group cameraGroup = new Group();
-        cameraGroup.getChildren().addAll(camera, controlPoint);
+        cameraGroup.getChildren().addAll(camera/*, controlPoint*/);
 
         super.getChildren().add(cameraGroup);
     }

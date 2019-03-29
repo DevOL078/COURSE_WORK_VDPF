@@ -1,9 +1,13 @@
 package ru.hse.app.visualization;
 
+import javafx.geometry.Point3D;
 import javafx.scene.Group;
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import ru.hse.app.domain.Point;
+import ru.hse.app.domain.PointVisual;
 
 import java.util.List;
 
@@ -16,10 +20,7 @@ class BuildingVisualizationJob {
     Group build(List<Point> points) {
         Group visualization = new Group();
         for(Point point : points) {
-            Circle pointVisual = new Circle(point.getX(), point.getY(), 10);    //TODO (перенести радиус в настройки)
-            pointVisual.setFill(Paint.valueOf("YELLOW"));                               //TODO (перенести цвет в настройки)
-            pointVisual.setStroke(Paint.valueOf("BLACK"));                              //TODO (перенести цвет контура в настройки)
-            pointVisual.setStrokeWidth(2);
+            PointVisual pointVisual = new PointVisual(point);
             visualization.getChildren().add(pointVisual);
         }
 
