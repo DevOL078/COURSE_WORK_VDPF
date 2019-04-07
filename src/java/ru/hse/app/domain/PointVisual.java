@@ -27,7 +27,7 @@ public class PointVisual extends Group {
         circle.setCenterY(point.getY());
         circle.radiusProperty().bind(VisualizationSettings.getInstance().getPointSize());
         circle.setFill(VisualizationSettings.getInstance().getPointColorPaint());
-        circle.setStroke(Paint.valueOf("BLACK"));                              //TODO (перенести цвет контура в настройки)
+        circle.setStroke(Paint.valueOf("BLACK"));
         circle.setStrokeWidth(2);
         super.getChildren().add(circle);
     }
@@ -54,5 +54,7 @@ public class PointVisual extends Group {
     }
 
     public Circle getCircle() {return this.circle;}
+
+    public Point getPoint() {return this.point;}
 
 }

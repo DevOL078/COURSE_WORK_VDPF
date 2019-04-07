@@ -4,6 +4,7 @@ import javafx.scene.Group;
 import ru.hse.app.domain.Point;
 import ru.hse.app.domain.PointVisual;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class BuildingVisualizationJob {
@@ -12,14 +13,14 @@ class BuildingVisualizationJob {
 
     }
 
-    Group build(List<Point> points) {
-        Group visualization = new Group();
+    List<PointVisual> build(List<Point> points) {
+        List<PointVisual> pointVisuals = new ArrayList<>();
         for(Point point : points) {
             PointVisual pointVisual = new PointVisual(point);
-            visualization.getChildren().add(pointVisual);
+            pointVisuals.add(pointVisual);
         }
 
-        return visualization;
+        return pointVisuals;
     }
 
 }

@@ -7,20 +7,24 @@ import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import ru.hse.app.animation.AnimationManager;
+import ru.hse.app.animation.IAnimation;
 import ru.hse.app.config.AppProperties;
+import ru.hse.app.animation.Animation;
 import ru.hse.app.domain.CoordAxe;
 import ru.hse.app.domain.CoordSystem;
 import ru.hse.app.domain.MemoryCamera;
 import ru.hse.app.main.Main;
 import ru.hse.app.settings.VisualizationSettings;
+import ru.hse.app.view.AnimationSettingsVisualizer;
+import ru.hse.app.view.ui.AnimationWrapper;
 import ru.hse.app.visualization.VisualizationManager;
 
 import java.io.*;
+import java.util.Map;
 
 public class MainController {
 
@@ -46,16 +50,13 @@ public class MainController {
     private Button zoomPlusButton;
 
     @FXML
-    private Button pointsSizeButton;
+    private Button animationSettingsButton;
 
     @FXML
-    private Button pointsColorButton;
+    private VBox animationsBox;
 
     @FXML
-    private Button pointsTypeButton;
-
-    @FXML
-    private Button dynamicAnimationButton;
+    private AnchorPane animationsPane;
 
     @FXML
     private TextField selectionTextField;
@@ -195,6 +196,11 @@ public class MainController {
             Group visualization = VisualizationManager.getInstance().buildVisualization(inputFile.getAbsolutePath());
             coordSystem.getChildren().add(visualization);
             System.out.println("Points created: " + visualization.getChildren().size());
+            AnimationManager.getInstance().initAnimations();
+            System.out.println("Animations initialized");
+            AnimationSettingsVisualizer.getInstance().loadAnimations(animationsBox);
+            System.out.println("Animations menu initialized");
+            AnimationManager.getInstance().setCurrentAnimationByName("Динамические отрезки");       //TODO перенести имя дефолтной анимации в настройки
         } catch (FileNotFoundException e) {
             System.err.println("File choosing error");
         } catch (Exception e) {
@@ -204,6 +210,16 @@ public class MainController {
 
     public void onSettingsButtonClick() {
         settingsPane.setVisible(!settingsPane.isVisible());
+        if(animationsPane.isVisible()) {
+            animationsPane.setVisible(false);
+        }
+    }
+
+    public void onAnimationSettingsButtonClick() {
+        animationsPane.setVisible(!animationsPane.isVisible());
+        if(settingsPane.isVisible()) {
+            settingsPane.setVisible(false);
+        }
     }
 
 }
