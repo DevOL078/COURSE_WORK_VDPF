@@ -200,7 +200,6 @@ public class MainController {
             System.out.println("Animations initialized");
             AnimationSettingsVisualizer.getInstance().loadAnimations(animationsBox);
             System.out.println("Animations menu initialized");
-            AnimationManager.getInstance().setCurrentAnimationByName("Динамические отрезки");       //TODO перенести имя дефолтной анимации в настройки
         } catch (FileNotFoundException e) {
             System.err.println("File choosing error");
         } catch (Exception e) {

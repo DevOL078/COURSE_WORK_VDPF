@@ -1,7 +1,7 @@
 package ru.hse.app.animation;
 
 import ru.hse.app.animation.impls.DashedLinesAnimation;
-import ru.hse.app.view.AnimationSettingsVisualizer;
+import ru.hse.app.animation.impls.DynamicPointsAnimation;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,17 +23,27 @@ public class AnimationManager {
 
     public void initAnimations() {
         IAnimation dashedLinesAnimation = new DashedLinesAnimation();
+        IAnimation dynamicPointsAnimation = new DynamicPointsAnimation();
+
 
         animations.put(dashedLinesAnimation.getName(), dashedLinesAnimation);
+        animations.put(dynamicPointsAnimation.getName(), dynamicPointsAnimation);
     }
 
     public void setCurrentAnimationByName(String name) {
         if(currentAnimation != null) {
             currentAnimation.stop();
+            System.out.println("Animation stopped");
+            currentAnimation = null;
         }
-        currentAnimation = animations.get(name);
-        System.out.println("Current animation: " + currentAnimation.getName());
-        currentAnimation.play();
+        if(name != null) {
+            currentAnimation = animations.get(name);
+            if(currentAnimation != null) {
+                System.out.println("Current animation: " + currentAnimation.getName());
+                currentAnimation.play();
+                System.out.println("Animation started");
+            }
+        }
     }
 
     public Map<String, IAnimation> getAnimations() {

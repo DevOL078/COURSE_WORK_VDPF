@@ -28,7 +28,6 @@ public class DashedLinesAnimation implements IAnimation {
 
     private void init() {
         lines.clear();
-        Group visGroup = VisualizationManager.getInstance().getVisualizationGroup();
         List<PointVisual> pointVisuals = VisualizationManager.getInstance().getPointVisuals();
 
         for(int i = 0; i < pointVisuals.size() - 1; ++i) {
@@ -44,7 +43,6 @@ public class DashedLinesAnimation implements IAnimation {
         lines.forEach(DynamicLine::playAnimation);
         Group visGroup = VisualizationManager.getInstance().getVisualizationGroup();
         visGroup.getChildren().addAll(lines);
-        System.out.println("Animation started");
     }
 
     @Override
@@ -52,7 +50,6 @@ public class DashedLinesAnimation implements IAnimation {
         lines.forEach(DynamicLine::stopAnimation);
         Group visGroup = VisualizationManager.getInstance().getVisualizationGroup();
         visGroup.getChildren().removeAll(lines);
-        System.out.println("Animation stopped");
     }
 
     @Override
@@ -87,7 +84,7 @@ public class DashedLinesAnimation implements IAnimation {
                             Duration.seconds(1),
                             new KeyValue(
                                     super.strokeDashOffsetProperty(),
-                                    maxOffset,
+                                    -maxOffset,
                                     Interpolator.LINEAR
                             )
                     )

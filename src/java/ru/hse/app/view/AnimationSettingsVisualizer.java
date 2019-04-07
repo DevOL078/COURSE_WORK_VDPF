@@ -28,31 +28,28 @@ public class AnimationSettingsVisualizer {
             wrapper.getToggleButton().setOnMouseClicked(e -> {
                 AnimationToggleButton button = wrapper.getToggleButton();
                 if(button.isSwitchedProperty().get()) {
-                    return;
+                    AnimationManager.getInstance().setCurrentAnimationByName(null);
+                    button.setIsSwitched(false);
+                } else {
+                    //Off current animation button
+                    Optional<AnimationWrapper> optionalWrapper = wrappers.stream()
+                            .filter(w -> w.getToggleButton().isSwitchedProperty().get())
+                            .findAny();
+                    optionalWrapper.ifPresent(animationWrapper ->
+                            animationWrapper.getToggleButton().setIsSwitched(false));
+
+                    //On this button
+                    button.setIsSwitched(true);
+
+                    //Set this animation as current
+                    AnimationManager.getInstance().setCurrentAnimationByName(
+                            wrapper.getAnimation().getName()
+                    );
                 }
-                //Off current animation button
-                Optional<AnimationWrapper> optionalWrapper = wrappers.stream()
-                        .filter(w -> w.getToggleButton().isSwitchedProperty().get())
-                        .findAny();
-                optionalWrapper.ifPresent(animationWrapper ->
-                        animationWrapper.getToggleButton().setIsSwitched(false));
-
-                //On this button
-                button.setIsSwitched(true);
-
-                //Set this animation as current
-                AnimationManager.getInstance().setCurrentAnimationByName(
-                        wrapper.getAnimation().getName()
-                );
             });
             wrappers.add(wrapper);
             container.getChildren().add(wrapper);
         }
-        //Set first current animation "Динамические отрезки"
-        wrappers.stream().filter(w -> w.getAnimation().getName().equals("Динамические отрезки"))
-                .findAny()
-                .get()
-                .getToggleButton().setIsSwitched(true);
     }
 
 }
