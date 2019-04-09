@@ -7,7 +7,7 @@ public class AppProperties {
 
     private static AppProperties instance = new AppProperties();
     private String configFilePath = "src/main/resources/app.config";
-    private Properties prop;
+    private SortedProperties prop;
 
     private AppProperties() {
         try {
@@ -24,14 +24,10 @@ public class AppProperties {
     }
 
     private void init() throws Exception {
-        prop = new Properties();
-        InputStream is = new FileInputStream(configFilePath);
-
-        prop.load(is);
-    }
-
-    public String getAppVersion() {
-        return prop.getProperty("app.version");
+        prop = new SortedProperties();
+        try(InputStream is = new FileInputStream(configFilePath)) {
+            prop.load(is);
+        }
     }
 
     public String getAppTitle() {
@@ -73,8 +69,12 @@ public class AppProperties {
     }
 
     private void storeConfigs() {
-        try {
-            prop.store(new FileOutputStream(configFilePath), "Last changing");
+        try(BufferedWriter writer = new BufferedWriter(
+                new OutputStreamWriter(
+                        new FileOutputStream(configFilePath)
+                )
+        )) {
+            prop.store(writer);
             System.out.println("New configurations saved");
         } catch (IOException e) {
             System.err.println("Store error");
