@@ -33,7 +33,7 @@ public class DynamicPointsAnimation implements IAnimation {
             if(index != points.size() - 1) {
                 DynamicPoint dynamicPoint = new DynamicPoint(p.getCircle(), points.get(index + 1).getCircle());
                 dynamicPoints.add(dynamicPoint);
-                dynamicPoint.radiusProperty().bind(VisualizationSettings.getInstance().getPointSize());
+                dynamicPoint.radiusProperty().bind(VisualizationSettings.getInstance().getPointSize().divide(2));
                 dynamicPoint.setFill(VisualizationSettings.getInstance().getPointColorPaint());
                 dynamicPoint.setStroke(Paint.valueOf("BLACK"));
                 dynamicPoint.setStrokeWidth(2);
@@ -64,7 +64,6 @@ public class DynamicPointsAnimation implements IAnimation {
         private TranslateTransition transition;
 
         DynamicPoint(Circle startPoint, Circle finishPoint) {
-            super.radiusProperty().bind(startPoint.radiusProperty().divide(2));
             transition = new TranslateTransition(new Duration(2000));
             transition.setFromX(startPoint.getCenterX());
             transition.setFromY(startPoint.getCenterY());

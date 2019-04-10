@@ -81,6 +81,14 @@
                         <Insets left="7.0" />
                      </GridPane.margin>
                   </Button>
+                  <Button fx:id="searchButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Поиск" GridPane.columnIndex="7" onMouseClicked="#onSearchButtonClick">
+                     <font>
+                        <Font name="Calibri" size="18.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets right="7.0" />
+                     </GridPane.margin>
+                  </Button>
                </children>
                <GridPane.margin>
                   <Insets />

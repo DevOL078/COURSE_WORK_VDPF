@@ -1,15 +1,16 @@
 package ru.hse.app.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.Group;
-import javafx.scene.SceneAntialiasing;
-import javafx.scene.SubScene;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import ru.hse.app.animation.AnimationManager;
 import ru.hse.app.animation.IAnimation;
 import ru.hse.app.config.AppProperties;
@@ -69,6 +70,9 @@ public class MainController {
 
     @FXML
     private ColorPicker pointColorPicker;
+
+    @FXML
+    private Button searchButton;
 
     private CoordSystem coordSystem;
     private AppProperties appProperties = AppProperties.getInstance();
@@ -218,6 +222,20 @@ public class MainController {
         animationsPane.setVisible(!animationsPane.isVisible());
         if(settingsPane.isVisible()) {
             settingsPane.setVisible(false);
+        }
+    }
+
+    public void onSearchButtonClick() {
+        try {
+            System.out.println("Search click");
+            Stage stage = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/search.fxml"));
+            Scene scene = new Scene(root, 400, 400);
+            stage.setScene(scene);
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
