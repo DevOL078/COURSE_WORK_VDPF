@@ -44,9 +44,7 @@ public class PointVisual extends Group {
             System.out.println(String.format("Info point: t=%.3f x=%.3f y=%.3f", point.getT(), point.getX(), point.getY()));
             InfoManager.getInstance().showPointInfo(this);
         });
-        infoPane.setOnMouseClicked(e -> {
-            InfoManager.getInstance().hideCurrentInfo();
-        });
+        infoPane.setOnMouseClicked(e -> InfoManager.getInstance().hideCurrentInfo());
     }
 
     public InfoPane getInfoPane() {

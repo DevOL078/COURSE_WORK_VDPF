@@ -4,9 +4,9 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.*;
 
-public class SortedProperties extends Properties {
+class SortedProperties extends Properties {
 
-    public void store(BufferedWriter writer) throws IOException {
+    void store(BufferedWriter writer) throws IOException {
         synchronized (this) {
             List<String> keys = new ArrayList<>(super.stringPropertyNames());
             Collections.sort(keys);

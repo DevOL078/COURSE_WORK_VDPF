@@ -8,7 +8,7 @@ public class MemoryCamera extends PerspectiveCamera {
     private double lastPosY = 0;
     private double lastPosZ = 0;
 
-    public MemoryCamera(boolean fixedEyeAtCameraZero) {
+    MemoryCamera(boolean fixedEyeAtCameraZero) {
         super(fixedEyeAtCameraZero);
     }
 

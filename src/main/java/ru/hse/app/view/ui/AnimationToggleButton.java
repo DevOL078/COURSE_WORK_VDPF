@@ -6,7 +6,6 @@ import javafx.animation.TranslateTransition;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Parent;
-import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -22,13 +21,11 @@ public class AnimationToggleButton extends Parent {
     private double width = 40;
     private double height = 20;
 
-    public AnimationToggleButton() {
-        initToogleButton();
+    AnimationToggleButton() {
+        initToggleButton();
     }
 
-    private void initToogleButton() {
-        HBox root = new HBox();
-
+    private void initToggleButton() {
         Rectangle rec = new Rectangle(width, height);
         rec.setArcWidth(height);
         rec.setArcHeight(height);
@@ -47,7 +44,7 @@ public class AnimationToggleButton extends Parent {
         fillAnimation.setShape(rec);
 
         isSwitched.addListener((obs, oldState, newState) -> {
-            boolean isOn = newState.booleanValue();
+            boolean isOn = newState;
             translateAnimation.setToX(isOn ? width - height : 0);
             fillAnimation.setFromValue(isOn ? Color.WHITE : Color.GREEN);
             fillAnimation.setToValue(isOn ? Color.GREEN : Color.WHITE);

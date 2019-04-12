@@ -4,7 +4,6 @@ import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import ru.hse.app.config.AppProperties;
 

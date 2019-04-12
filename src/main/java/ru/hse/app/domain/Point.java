@@ -25,7 +25,7 @@ public class Point extends Point2D {
         isSelected = value;
     }
 
-    public String getInfoText() {
+    String getInfoText() {
         return String.format("X = %.3f\nY = %.3f\nT = %.3f", super.getX(), super.getY(), this.t);
     }
 

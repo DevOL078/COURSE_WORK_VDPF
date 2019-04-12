@@ -1,6 +1,5 @@
 package ru.hse.app.visualization;
 
-import javafx.scene.Group;
 import ru.hse.app.domain.Point;
 import ru.hse.app.domain.PointVisual;
 

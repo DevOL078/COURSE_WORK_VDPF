@@ -6,15 +6,12 @@ import ru.hse.app.controller.MainController;
 import ru.hse.app.domain.Point;
 import ru.hse.app.domain.PointVisual;
 import ru.hse.app.repository.PointsRepository;
-import ru.hse.app.settings.VisualizationSettings;
-import ru.hse.app.view.AnimationSettingsVisualizer;
 
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class VisualizationManager {
 
-    private VisualizationSettings visualizationSettings = VisualizationSettings.getInstance();
     private static VisualizationManager instance = new VisualizationManager();
     private Group visualizationGroup;
     private List<PointVisual> pointVisuals;
@@ -31,11 +28,7 @@ public class VisualizationManager {
         List<Point> points = loader.loadPoints(filePath);
         System.out.println("Points loaded: " + points.size());
 
-        Collections.sort(points, (a,b) -> {
-            if(a.getT() > b.getT()) { return 1; }
-            if(a.getT() == b.getT()) { return 0; }
-            else { return -1; }
-        });
+        points.sort(Comparator.comparingDouble(Point::getT));
         PointsRepository.getInstance().savePoints(points);
         MainController.getController().onSelectionButtonClick();
 

@@ -13,7 +13,7 @@ public class CoordAxe extends Group {
     private Line line;
     private Label label;
 
-    public CoordAxe(double startX, double startY, double endX, double endY, String labelText) {
+    CoordAxe(double startX, double startY, double endX, double endY, String labelText) {
         this.line = new Line(startX, startY, endX, endY);
         super.getChildren().add(this.line);
         createTails(10, 5);

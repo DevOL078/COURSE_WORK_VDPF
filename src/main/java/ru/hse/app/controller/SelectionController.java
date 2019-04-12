@@ -14,7 +14,6 @@ import ru.hse.app.visualization.VisualizationManager;
 
 import java.util.List;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class SelectionController {
 

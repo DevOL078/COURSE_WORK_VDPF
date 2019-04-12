@@ -11,10 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import ru.hse.app.animation.AnimationManager;
-import ru.hse.app.animation.IAnimation;
 import ru.hse.app.config.AppProperties;
-import ru.hse.app.animation.Animation;
 import ru.hse.app.domain.CoordAxe;
 import ru.hse.app.domain.CoordSystem;
 import ru.hse.app.domain.MemoryCamera;
@@ -23,11 +20,9 @@ import ru.hse.app.info.InfoManager;
 import ru.hse.app.main.Main;
 import ru.hse.app.settings.VisualizationSettings;
 import ru.hse.app.view.AnimationSettingsVisualizer;
-import ru.hse.app.view.ui.AnimationWrapper;
 import ru.hse.app.visualization.VisualizationManager;
 
 import java.io.*;
-import java.util.Map;
 
 public class MainController {
 
