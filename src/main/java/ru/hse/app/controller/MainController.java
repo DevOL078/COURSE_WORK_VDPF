@@ -18,6 +18,8 @@ import ru.hse.app.animation.Animation;
 import ru.hse.app.domain.CoordAxe;
 import ru.hse.app.domain.CoordSystem;
 import ru.hse.app.domain.MemoryCamera;
+import ru.hse.app.domain.PointVisual;
+import ru.hse.app.info.InfoManager;
 import ru.hse.app.main.Main;
 import ru.hse.app.settings.VisualizationSettings;
 import ru.hse.app.view.AnimationSettingsVisualizer;
@@ -78,9 +80,12 @@ public class MainController {
     private AppProperties appProperties = AppProperties.getInstance();
     private double mousePosX;
     private double mousePosY;
+    private static MainController instance;
+    private Stage searchStage;
 
     @FXML
     public void initialize() {
+        instance = this;
         coordSystem = new CoordSystem();
 
         SubScene subScene = new SubScene(coordSystem, appProperties.getWindowWidth(),
@@ -190,6 +195,21 @@ public class MainController {
         camera.updateLastPosition();
     }
 
+    public void moveCameraTo(PointVisual pointVisual) {
+        System.out.printf("Found point: %.3f %.3f %.3f\n",
+                pointVisual.getPoint().getT(),
+                pointVisual.getPoint().getX(),
+                pointVisual.getPoint().getY());
+        coordSystem.getCamera().setTranslateX(pointVisual.getPoint().getX());
+        coordSystem.getCamera().setTranslateY(pointVisual.getPoint().getY());
+
+        updateAxesMoving(coordSystem);
+
+        InfoManager.getInstance().showPointInfo(pointVisual);
+
+        searchStage.close();
+    }
+
     public void onLoadButtonClick() {
         FileChooser fileChooser = new FileChooser();
         File inputFile = fileChooser.showOpenDialog(Main.getStage());
@@ -228,15 +248,19 @@ public class MainController {
     public void onSearchButtonClick() {
         try {
             System.out.println("Search click");
-            Stage stage = new Stage();
+            searchStage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("/fxml/search.fxml"));
             Scene scene = new Scene(root, 400, 400);
-            stage.setScene(scene);
-            stage.initModality(Modality.WINDOW_MODAL);
-            stage.show();
+            searchStage.setScene(scene);
+            searchStage.initModality(Modality.WINDOW_MODAL);
+            searchStage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static MainController getController() {
+        return instance;
     }
 
 }
