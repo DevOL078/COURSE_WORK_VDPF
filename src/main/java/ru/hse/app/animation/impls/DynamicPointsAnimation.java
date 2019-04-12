@@ -20,11 +20,10 @@ public class DynamicPointsAnimation implements IAnimation {
 
     public DynamicPointsAnimation() {
         dynamicPoints = new ArrayList<>();
-
-        init();
     }
 
-    private void init() {
+    @Override
+    public void init() {
         dynamicPoints.clear();
         List<PointVisual> points = VisualizationManager.getInstance().getPointVisuals();
 

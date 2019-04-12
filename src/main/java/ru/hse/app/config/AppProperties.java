@@ -54,6 +54,10 @@ public class AppProperties {
         return Double.parseDouble(prop.getProperty("app.camera.angle"));
     }
 
+    public int getPointsMaxNumber() {
+        return Integer.parseInt(prop.getProperty("app.points.max.number"));
+    }
+
     public double getPointSize() {return Double.parseDouble(prop.getProperty("app.point.size"));}
 
     public String getPointColor() {return prop.getProperty("app.point.color");}

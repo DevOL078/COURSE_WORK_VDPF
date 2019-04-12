@@ -15,6 +15,13 @@ public class AnimationManager {
 
     private AnimationManager(){
         animations = new HashMap<>();
+
+        IAnimation dashedLinesAnimation = new DashedLinesAnimation();
+        IAnimation dynamicPointsAnimation = new DynamicPointsAnimation();
+
+
+        animations.put(dashedLinesAnimation.getName(), dashedLinesAnimation);
+        animations.put(dynamicPointsAnimation.getName(), dynamicPointsAnimation);
     }
 
     public static AnimationManager getInstance() {
@@ -22,12 +29,7 @@ public class AnimationManager {
     }
 
     public void initAnimations() {
-        IAnimation dashedLinesAnimation = new DashedLinesAnimation();
-        IAnimation dynamicPointsAnimation = new DynamicPointsAnimation();
-
-
-        animations.put(dashedLinesAnimation.getName(), dashedLinesAnimation);
-        animations.put(dynamicPointsAnimation.getName(), dynamicPointsAnimation);
+        animations.values().forEach(IAnimation::init);
     }
 
     public void setCurrentAnimationByName(String name) {

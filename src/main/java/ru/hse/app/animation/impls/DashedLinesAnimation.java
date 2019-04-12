@@ -22,11 +22,10 @@ public class DashedLinesAnimation implements IAnimation {
 
     public DashedLinesAnimation() {
         this.lines = new ArrayList<>();
-
-        init();
     }
 
-    private void init() {
+    @Override
+    public void init() {
         lines.clear();
         List<PointVisual> pointVisuals = VisualizationManager.getInstance().getPointVisuals();
 

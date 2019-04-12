@@ -19,7 +19,7 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root,
                 AppProperties.getInstance().getWindowWidth(),
                 AppProperties.getInstance().getWindowHeight()));
-        primaryStage.setResizable(false);
+        //primaryStage.setResizable(false);
         primaryStage.show();
     }
 

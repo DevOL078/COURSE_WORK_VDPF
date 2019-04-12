@@ -62,19 +62,10 @@ public class MainController {
     private AnchorPane animationsPane;
 
     @FXML
-    private TextField selectionTextField;
-
-    @FXML
-    private Button changeSelectionButton;
-
-    @FXML
     private TextField pointSizeTextField;
 
     @FXML
     private ColorPicker pointColorPicker;
-
-    @FXML
-    private Button searchButton;
 
     private CoordSystem coordSystem;
     private AppProperties appProperties = AppProperties.getInstance();
@@ -82,6 +73,7 @@ public class MainController {
     private double mousePosY;
     private static MainController instance;
     private Stage searchStage;
+    private Stage selectionStage;
 
     @FXML
     public void initialize() {
@@ -145,7 +137,7 @@ public class MainController {
         CoordAxe axeOX = coordSystem.getAxeOX();
         CoordAxe axeOY = coordSystem.getAxeOY();
         MemoryCamera camera = (MemoryCamera)coordSystem.getCamera();
-        double cameraStartZ = appProperties.getWindowHeight() * 0.35;
+        double cameraStartZ = appProperties.getWindowHeight() * 0.40;
         double dz = camera.getTranslateZ() - camera.getLastPosZ();
 
         axeOX.getLine().setEndX(axeOX.getLine().getEndX() + dz *
@@ -217,11 +209,7 @@ public class MainController {
             return;
         }
         try {
-            Group visualization = VisualizationManager.getInstance().buildVisualization(inputFile.getAbsolutePath());
-            coordSystem.getChildren().add(visualization);
-            System.out.println("Points created: " + visualization.getChildren().size());
-            AnimationManager.getInstance().initAnimations();
-            System.out.println("Animations initialized");
+            VisualizationManager.getInstance().buildVisualization(inputFile.getAbsolutePath());
             AnimationSettingsVisualizer.getInstance().loadAnimations(animationsBox);
             System.out.println("Animations menu initialized");
         } catch (FileNotFoundException e) {
@@ -252,6 +240,7 @@ public class MainController {
             Parent root = FXMLLoader.load(getClass().getResource("/fxml/search.fxml"));
             Scene scene = new Scene(root, 400, 400);
             searchStage.setScene(scene);
+            searchStage.setTitle("Поиск точек");
             searchStage.initModality(Modality.WINDOW_MODAL);
             searchStage.show();
         } catch (IOException e) {
@@ -259,8 +248,35 @@ public class MainController {
         }
     }
 
+    public void onSelectionButtonClick() {
+        try {
+            System.out.println("Selection start");
+            selectionStage = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/selection.fxml"));
+            Scene scene = new Scene(root, 400, 400);
+            selectionStage.setScene(scene);
+            selectionStage.setTitle("Выборка точек для построения");
+            selectionStage.initModality(Modality.WINDOW_MODAL);
+            selectionStage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static MainController getController() {
         return instance;
+    }
+
+    public Stage getSelectionStage() {
+        return selectionStage;
+    }
+
+    public Stage getSearchStage() {
+        return searchStage;
+    }
+
+    public CoordSystem getCoordSystem() {
+        return coordSystem;
     }
 
 }

@@ -7,10 +7,6 @@ import java.util.List;
 
 class LoadingPointsJob {
 
-    LoadingPointsJob() {
-
-    }
-
     List<Point> loadPoints(String filePath) throws Exception {
         return PointsService.getInstance().readPoints(filePath);
     }

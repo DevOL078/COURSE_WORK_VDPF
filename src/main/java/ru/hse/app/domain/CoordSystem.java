@@ -14,7 +14,7 @@ public class CoordSystem extends Group {
     private CoordAxe axeOY;
     private MemoryCamera camera;
     private AppProperties appProperties = AppProperties.getInstance();
-    private double cameraStartZ = appProperties.getWindowHeight() * 0.35;
+    private double cameraStartZ = appProperties.getWindowHeight() * 0.40;
 
     public CoordSystem() {
         initialize();
@@ -27,10 +27,10 @@ public class CoordSystem extends Group {
     }
 
     private void createAxes() {
-        axeOX = new CoordAxe(-1 * appProperties.getWindowWidth() / 2, 0,
-                appProperties.getWindowWidth() / 2, 0, "X");
-        axeOY = new CoordAxe(0, -1 * appProperties.getWindowHeight() * 0.35, 0,
-                appProperties.getWindowHeight() * 0.35, "Y");
+        axeOX = new CoordAxe(-1 * appProperties.getWindowWidth() / 2.0, 0,
+                appProperties.getWindowWidth() / 2.0, 0, "X");
+        axeOY = new CoordAxe(0, -1 * appProperties.getWindowHeight() * 0.40, 0,
+                appProperties.getWindowHeight() * 0.40, "Y");
         axeOX.getLine().setStroke(Paint.valueOf("BLACK"));
         axeOY.getLine().setStroke(Paint.valueOf("BLACK"));
         axeOX.getLabel().rotationAxisProperty().bind(super.rotationAxisProperty());
