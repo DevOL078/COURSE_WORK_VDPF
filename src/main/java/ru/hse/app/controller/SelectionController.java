@@ -5,13 +5,16 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import ru.hse.app.config.AppProperties;
 import ru.hse.app.domain.Point;
 import ru.hse.app.repository.PointsRepository;
+import ru.hse.app.selection.functional.Function;
 import ru.hse.app.visualization.VisualizationManager;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -21,9 +24,6 @@ public class SelectionController {
     private TextArea pointNumbersArea;
 
     @FXML
-    private TextArea functionArea;
-
-    @FXML
     private Button callFunctionButton;
 
     @FXML
@@ -31,6 +31,12 @@ public class SelectionController {
 
     @FXML
     private Button callNumbersButton;
+
+    @FXML
+    private TextField functionField;
+
+    @FXML
+    private TextField pointCountField;
 
     @FXML
     private Button saveButton;
@@ -58,6 +64,30 @@ public class SelectionController {
         }
 
         callNumbersButton.setDisable(true);
+
+        pointNumbersArea.setOnKeyReleased(e -> {
+            String text = pointNumbersArea.getText();
+            text = text.replaceAll(", ", ",");
+            Pattern pattern = Pattern.compile("[0-9]*([,][0-9]+)*");
+            patternWarningAndDisable(pattern, text, pointNumbersArea, callNumbersButton);
+        });
+
+        pointCountField.setOnKeyReleased(e -> {
+            String text = pointCountField.getText();
+            Pattern pattern = Pattern.compile("[0-9]*");
+            patternWarningAndDisable(pattern, text, pointCountField, callFunctionButton);
+        });
+    }
+
+    private void patternWarningAndDisable(Pattern pattern, String text, Node node, Button button) {
+        if(!pattern.matcher(text).matches()) {
+            node.setStyle("-fx-border-color: red");
+            button.setDisable(true);
+        }
+        else {
+            node.setStyle("");
+            button.setDisable(false);
+        }
     }
 
     private void initTable() {
@@ -125,20 +155,6 @@ public class SelectionController {
         );
 
         pointsTable.getItems().addAll(points);
-
-        pointNumbersArea.setOnKeyReleased(e -> {
-            String text = pointNumbersArea.getText();
-            text = text.replaceAll(", ", ",");
-            Pattern pattern = Pattern.compile("[0-9]*([,][0-9]+)*");
-            if(!pattern.matcher(text).matches()) {
-                pointNumbersArea.setStyle("-fx-border-color: red");
-                callNumbersButton.setDisable(true);
-            }
-            else {
-                pointNumbersArea.setStyle("");
-                callNumbersButton.setDisable(false);
-            }
-        });
     }
 
     private void updatePointNumbersAreaText(List<Point> points) {
@@ -158,13 +174,13 @@ public class SelectionController {
     public void onCallNumbersClick() {
         String text = pointNumbersArea.getText();
         text = text.replaceAll(", ", ",");
-        points.forEach(p -> p.setIsSelected(false));
-        String[] numbers = text.split(",");
-        for(String s : numbers) {
-            int number = Integer.parseInt(s);
-            SimpleBooleanProperty value = (SimpleBooleanProperty) pointsTable.getColumns().get(0).getCellObservableValue(number - 1);
-            value.setValue(true);
+        String[] numbersStrArr = text.split(",");
+        List<Integer> numbers = new ArrayList<>();
+        for(String s : numbersStrArr) {
+            Integer i = Integer.parseInt(s);
+            numbers.add(i);
         }
+        selectPoints(numbers);
         pointsTable.refresh();
         checkSelectedPointsNumber();
     }
@@ -178,6 +194,36 @@ public class SelectionController {
         else {
             saveButton.setDisable(false);
         }
+    }
+
+    public void onCallFunctionClick() {
+        String expression = functionField.getText();
+        int pointsCount = Integer.parseInt(pointCountField.getText());
+
+        List<Integer> pointsNumbers = getPointsNumbers(expression, pointsCount);
+        selectPoints(pointsNumbers);
+        pointsTable.refresh();
+        checkSelectedPointsNumber();
+    }
+
+    private void selectPoints(List<Integer> numbers) {
+        points.forEach(p -> p.setIsSelected(false));
+        for(Integer i : numbers) {
+            SimpleBooleanProperty value = (SimpleBooleanProperty) pointsTable.getColumns().get(0).getCellObservableValue(i-1);
+            value.setValue(true);
+        }
+    }
+
+    private List<Integer> getPointsNumbers(String expression, int pointsCount) {
+        Function function = new Function(expression);
+        List<Integer> pointsNumbers = new ArrayList<>();
+        int i = 1;
+        while(i <= pointsCount) {
+            int number = function.calculate(i);
+            pointsNumbers.add(number);
+            i++;
+        }
+        return pointsNumbers;
     }
 
     public void onSaveButtonClick() {
