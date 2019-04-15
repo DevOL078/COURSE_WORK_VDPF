@@ -2,6 +2,7 @@ package ru.hse.app.animation;
 
 import ru.hse.app.animation.impls.DashedLinesAnimation;
 import ru.hse.app.animation.impls.DynamicPointsAnimation;
+import ru.hse.app.animation.impls.FlyingPointAnimation;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,10 +19,12 @@ public class AnimationManager {
 
         IAnimation dashedLinesAnimation = new DashedLinesAnimation();
         IAnimation dynamicPointsAnimation = new DynamicPointsAnimation();
+        IAnimation flyingPointAnimation = new FlyingPointAnimation();
 
 
         animations.put(dashedLinesAnimation.getName(), dashedLinesAnimation);
         animations.put(dynamicPointsAnimation.getName(), dynamicPointsAnimation);
+        animations.put(flyingPointAnimation.getName(), flyingPointAnimation);
     }
 
     public static AnimationManager getInstance() {
