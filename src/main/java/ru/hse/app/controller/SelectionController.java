@@ -67,9 +67,14 @@ public class SelectionController {
 
         pointNumbersArea.setOnKeyReleased(e -> {
             String text = pointNumbersArea.getText();
-            text = text.replaceAll(", ", ",");
-            Pattern pattern = Pattern.compile("[0-9]*([,][0-9]+)*");
-            patternWarningAndDisable(pattern, text, pointNumbersArea, callNumbersButton);
+            if(text.isEmpty()) {
+                callNumbersButton.setDisable(true);
+            }
+            else {
+                text = text.replaceAll(", ", ",");
+                Pattern pattern = Pattern.compile("([0-9]*|[0-9]+-[0-9]+)([, ]([0-9]+|[0-9]+-[0-9]+))*");
+                patternWarningAndDisable(pattern, text, pointNumbersArea, callNumbersButton);
+            }
         });
 
         pointCountField.setOnKeyReleased(e -> {
@@ -159,14 +164,50 @@ public class SelectionController {
 
     private void updatePointNumbersAreaText(List<Point> points) {
         StringBuilder builder = new StringBuilder();
-        for(int i = 0; i < points.size(); ++i) {
+//        for(int i = 0; i < points.size(); ++i) {
+//            Point point = points.get(i);
+//            if(point.isSelected()) {
+//                if(builder.length() != 0) {
+//                    builder.append(", ");
+//                }
+//                builder.append(String.valueOf(i + 1));
+//            }
+//        }
+
+        int i = 0;
+        int intervalStart = -1;
+        int intervalSize = -1;
+        while(i < points.size()) {
             Point point = points.get(i);
             if(point.isSelected()) {
-                if(builder.length() != 0) {
+                if(intervalStart == -1) {
+                    intervalStart = i + 1;
+                    intervalSize = 1;
+                }
+                else {
+                    intervalSize++;
+                }
+            }
+            else {
+                if(intervalSize >= 3) {
+                    builder.append(intervalStart);
+                    builder.append("-");
+                    builder.append(intervalStart + intervalSize -  1);
                     builder.append(", ");
                 }
-                builder.append(String.valueOf(i + 1));
+                else {
+                    for(int j = intervalStart; j <= intervalStart + intervalSize - 1; ++j) {
+                        builder.append(j);
+                        builder.append(", ");
+                    }
+                }
+                intervalStart = -1;
+                intervalSize = -1;
             }
+            i++;
+        }
+        if(builder.length() > 0) {
+            builder.delete(builder.length() - 2, builder.length());
         }
         pointNumbersArea.setText(builder.toString());
     }
@@ -177,8 +218,21 @@ public class SelectionController {
         String[] numbersStrArr = text.split(",");
         List<Integer> numbers = new ArrayList<>();
         for(String s : numbersStrArr) {
-            Integer i = Integer.parseInt(s);
-            numbers.add(i);
+            Pattern intervalPattern = Pattern.compile("[0-9]+-[0-9]+");
+            if(intervalPattern.matcher(s).matches()) {
+                String[] numberStr = s.split("-");
+                int fromNumber = Integer.parseInt(numberStr[0]);
+                int endNumber = Integer.parseInt(numberStr[1]);
+                int i = fromNumber;
+                while(i <= endNumber) {
+                    numbers.add(i);
+                    i++;
+                }
+            }
+            else {
+                Integer i = Integer.parseInt(s);
+                numbers.add(i);
+            }
         }
         selectPoints(numbers);
         pointsTable.refresh();
