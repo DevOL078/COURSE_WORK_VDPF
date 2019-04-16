@@ -112,7 +112,10 @@ public class MainController {
 
         allPointsLabel.setText("");
         visualPointsLabel.setText("");
+
     }
+
+    private void initZoomButtons() {}
 
     private void initSettingsValues() {
         pointSizeTextField.setText(

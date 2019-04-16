@@ -1,0 +1,15 @@
+.plus_Button{
+    -fx-background-image: url("../img/zoom_plus.png");
+    -fx-background-position: center center;
+    -fx-background-size: contain;
+    -fx-background-insets: 0, 1;
+    -fx-background-repeat: no-repeat;
+}
+
+.minus_Button{
+    -fx-background-image: url("../img/zoom_minus.png");
+    -fx-background-position: center center;
+    -fx-background-size: contain;
+    -fx-background-insets: 0, 1;
+    -fx-background-repeat: no-repeat;
+}

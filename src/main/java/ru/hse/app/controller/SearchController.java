@@ -111,6 +111,10 @@ public class SearchController {
                     }
                     return result;
                 }).collect(Collectors.toList());
+                if(filteredItems.isEmpty()) {
+                    goToButton.setDisable(true);
+                    pointsTable.getSelectionModel().select(-1);
+                }
                 pointsTable.setItems(FXCollections.observableList(filteredItems));
             }
             else {
