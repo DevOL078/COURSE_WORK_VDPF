@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -18,6 +19,7 @@ import ru.hse.app.domain.MemoryCamera;
 import ru.hse.app.domain.PointVisual;
 import ru.hse.app.info.InfoManager;
 import ru.hse.app.main.Main;
+import ru.hse.app.repository.PointsRepository;
 import ru.hse.app.settings.VisualizationSettings;
 import ru.hse.app.view.AnimationSettingsVisualizer;
 import ru.hse.app.visualization.VisualizationManager;
@@ -68,6 +70,12 @@ public class MainController {
     @FXML
     private Button searchButton;
 
+    @FXML
+    private Label allPointsLabel;
+
+    @FXML
+    private Label visualPointsLabel;
+
     private CoordSystem coordSystem;
     private AppProperties appProperties = AppProperties.getInstance();
     private double mousePosX;
@@ -101,6 +109,9 @@ public class MainController {
         zoomPlusButton.setDisable(true);
         selectionButton.setDisable(true);
         searchButton.setDisable(true);
+
+        allPointsLabel.setText("");
+        visualPointsLabel.setText("");
     }
 
     private void initSettingsValues() {
@@ -230,6 +241,11 @@ public class MainController {
                 zoomPlusButton.setDisable(false);
                 selectionButton.setDisable(false);
                 searchButton.setDisable(false);
+
+                int allPointsSize = PointsRepository.getInstance().getAllPoints().size();
+                int visualPointsSize = VisualizationManager.getInstance().getPointVisuals().size();
+                allPointsLabel.setText("Всего точек: " + allPointsSize);
+                visualPointsLabel.setText("На графике: " + visualPointsSize);
             } else {
                 settingsButton.setDisable(true);
                 animationSettingsButton.setDisable(true);
@@ -237,6 +253,9 @@ public class MainController {
                 zoomPlusButton.setDisable(true);
                 selectionButton.setDisable(true);
                 searchButton.setDisable(true);
+
+                allPointsLabel.setText("");
+                visualPointsLabel.setText("");
             }
         } catch (FileNotFoundException e) {
             System.err.println("File choosing error");
@@ -263,6 +282,8 @@ public class MainController {
         try {
             System.out.println("Search click");
             searchStage = new Stage();
+            searchStage.initModality(Modality.WINDOW_MODAL);
+            searchStage.initOwner(Main.getStage());
             Parent root = FXMLLoader.load(getClass().getResource("/fxml/search.fxml"));
             Scene scene = new Scene(root, 400, 400);
             searchStage.setScene(scene);
@@ -278,12 +299,17 @@ public class MainController {
         try {
             System.out.println("Selection start");
             selectionStage = new Stage();
+            selectionStage.initModality(Modality.WINDOW_MODAL);
+            selectionStage.initOwner(Main.getStage());
             Parent root = FXMLLoader.load(getClass().getResource("/fxml/selection.fxml"));
             Scene scene = new Scene(root, 400, 400);
             selectionStage.setScene(scene);
             selectionStage.setTitle("Выборка точек для построения");
             selectionStage.initModality(Modality.WINDOW_MODAL);
             selectionStage.showAndWait();
+
+            int visualPointsSize = VisualizationManager.getInstance().getPointVisuals().size();
+            visualPointsLabel.setText("На графике: " + visualPointsSize);
         } catch (IOException e) {
             e.printStackTrace();
         }

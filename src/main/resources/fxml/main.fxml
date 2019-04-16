@@ -88,7 +88,7 @@
                         <Insets right="7.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button fx:id="selectionButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Выборка" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="6" onMouseClicked="#onSelectionButtonClick">
+                  <Button fx:id="selectionButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#onSelectionButtonClick" text="Выборка" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="6">
                      <font>
                         <Font name="Calibri" size="18.0" />
                      </font>
@@ -107,19 +107,25 @@
             <Pane fx:id="workPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" GridPane.rowIndex="1" />
             <GridPane style="-fx-background-color: green;" translateZ="-10.0" GridPane.rowIndex="2">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="Всего точек: 100      На графике: 20" textFill="WHITE">
+                  <Label fx:id="allPointsLabel" text="Всего точек: 100" textFill="WHITE">
                      <font>
                         <Font name="Calibri" size="24.0" />
                      </font>
                      <GridPane.margin>
                         <Insets left="15.0" />
                      </GridPane.margin>
+                  </Label>
+                  <Label fx:id="visualPointsLabel" text="На графике: 20" textFill="WHITE" GridPane.columnIndex="1">
+                     <font>
+                        <Font name="Calibri" size="24.0" />
+                     </font>
                   </Label>
                </children>
             </GridPane>

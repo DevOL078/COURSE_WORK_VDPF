@@ -11,6 +11,10 @@ public class Function {
     }
 
     private void analyze() {
+        if(expression.isEmpty()) {
+            throw new IllegalArgumentException("Неверный формат функции.");
+        }
+
         //Find +
         int index = expression.indexOf('+');
         while(index >= 0) {
