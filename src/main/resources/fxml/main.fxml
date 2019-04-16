@@ -56,7 +56,7 @@
                         <Insets left="7.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button fx:id="zoomMinusButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="49.0" prefWidth="63.0" styleClass="minus_Button" stylesheets="@../assets/style/button.css" GridPane.columnIndex="4">
+                  <Button fx:id="zoomMinusButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="49.0" prefWidth="63.0" styleClass="minus_Button" stylesheets="@../assets/style/button.css" GridPane.columnIndex="4" onMouseClicked="#onZoomMinusButtonClick">
                      <font>
                         <Font name="Calibri" size="18.0" />
                      </font>
@@ -64,7 +64,7 @@
                         <Insets right="7.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button fx:id="zoomPlusButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="plus_Button" stylesheets="@../assets/style/button.css" GridPane.columnIndex="3">
+                  <Button fx:id="zoomPlusButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="plus_Button" stylesheets="@../assets/style/button.css" GridPane.columnIndex="3" onMouseClicked="#onZoomPlusButtonClick">
                      <font>
                         <Font name="Calibri" size="18.0" />
                      </font>

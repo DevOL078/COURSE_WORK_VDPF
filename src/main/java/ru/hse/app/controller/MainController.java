@@ -83,6 +83,7 @@ public class MainController {
     private static MainController instance;
     private Stage searchStage;
     private Stage selectionStage;
+    private double cameraOffset = 30;
 
     @FXML
     public void initialize() {
@@ -105,17 +106,12 @@ public class MainController {
 
         settingsButton.setDisable(true);
         animationSettingsButton.setDisable(true);
-        zoomMinusButton.setDisable(true);
-        zoomPlusButton.setDisable(true);
         selectionButton.setDisable(true);
         searchButton.setDisable(true);
 
         allPointsLabel.setText("");
         visualPointsLabel.setText("");
-
     }
-
-    private void initZoomButtons() {}
 
     private void initSettingsValues() {
         pointSizeTextField.setText(
@@ -240,8 +236,6 @@ public class MainController {
 
                 settingsButton.setDisable(false);
                 animationSettingsButton.setDisable(false);
-                zoomMinusButton.setDisable(false);
-                zoomPlusButton.setDisable(false);
                 selectionButton.setDisable(false);
                 searchButton.setDisable(false);
 
@@ -252,8 +246,6 @@ public class MainController {
             } else {
                 settingsButton.setDisable(true);
                 animationSettingsButton.setDisable(true);
-                zoomMinusButton.setDisable(true);
-                zoomPlusButton.setDisable(true);
                 selectionButton.setDisable(true);
                 searchButton.setDisable(true);
 
@@ -332,6 +324,22 @@ public class MainController {
 
     public CoordSystem getCoordSystem() {
         return coordSystem;
+    }
+
+    public void onZoomPlusButtonClick() {
+        PerspectiveCamera camera = coordSystem.getCamera();
+        if(camera.getTranslateZ() < 1800 - cameraOffset){
+            camera.setTranslateZ(camera.getTranslateZ() - cameraOffset);
+        }
+        updateAxesZoom(coordSystem);
+    }
+
+    public void onZoomMinusButtonClick() {
+        PerspectiveCamera camera = coordSystem.getCamera();
+        if(camera.getTranslateZ() > cameraOffset){
+            camera.setTranslateZ(camera.getTranslateZ() + cameraOffset);
+        }
+        updateAxesZoom(coordSystem);
     }
 
 }
