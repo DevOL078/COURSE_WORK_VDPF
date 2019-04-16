@@ -90,7 +90,7 @@ public class Function {
             int number = Integer.parseInt(expression);
             this.calculator = (value) -> number;
         } catch (NumberFormatException e) {
-            System.out.println("Illegal expression format");
+            throw new IllegalArgumentException("Неверный формат функции: " + expression);
         }
     }
 

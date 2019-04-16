@@ -24,6 +24,10 @@ public class PointsRepository {
         return points.stream().filter(Point::isSelected).collect(Collectors.toList());
     }
 
+    public void deleteAllPoints() {
+        points = null;
+    }
+
     public static PointsRepository getInstance() {
         return instance;
     }

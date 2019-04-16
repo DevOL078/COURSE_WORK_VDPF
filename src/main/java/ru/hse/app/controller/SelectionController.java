@@ -64,6 +64,7 @@ public class SelectionController {
         }
 
         callNumbersButton.setDisable(true);
+        callFunctionButton.setDisable(true);
 
         pointNumbersArea.setOnKeyReleased(e -> {
             String text = pointNumbersArea.getText();
@@ -79,13 +80,17 @@ public class SelectionController {
 
         pointCountField.setOnKeyReleased(e -> {
             String text = pointCountField.getText();
-            Pattern pattern = Pattern.compile("[0-9]*");
+            Pattern pattern = Pattern.compile("[0-9]+");
             patternWarningAndDisable(pattern, text, pointCountField, callFunctionButton);
         });
     }
 
     private void patternWarningAndDisable(Pattern pattern, String text, Node node, Button button) {
-        if(!pattern.matcher(text).matches()) {
+        if(text.isEmpty()) {
+            node.setStyle("");
+            button.setDisable(true);
+        }
+        else if(!pattern.matcher(text).matches()) {
             node.setStyle("-fx-border-color: red");
             button.setDisable(true);
         }
@@ -217,26 +222,50 @@ public class SelectionController {
         text = text.replaceAll(", ", ",");
         String[] numbersStrArr = text.split(",");
         List<Integer> numbers = new ArrayList<>();
-        for(String s : numbersStrArr) {
-            Pattern intervalPattern = Pattern.compile("[0-9]+-[0-9]+");
-            if(intervalPattern.matcher(s).matches()) {
-                String[] numberStr = s.split("-");
-                int fromNumber = Integer.parseInt(numberStr[0]);
-                int endNumber = Integer.parseInt(numberStr[1]);
-                int i = fromNumber;
-                while(i <= endNumber) {
+        try {
+            for(String s : numbersStrArr) {
+                Pattern intervalPattern = Pattern.compile("[0-9]+-[0-9]+");
+                if(intervalPattern.matcher(s).matches()) {
+                    String[] numberStr = s.split("-");
+                    int fromNumber = Integer.parseInt(numberStr[0]);
+                    int endNumber = Integer.parseInt(numberStr[1]);
+                    if(fromNumber == 0 || endNumber == 0) {
+                        throw new IllegalArgumentException(
+                                String.format("Допускаются только номера от 1 до %d.", points.size())
+                        );
+                    }
+                    if(endNumber < fromNumber) {
+                        throw new IllegalArgumentException(String.format("Неверный интервал: %s.", s));
+                    }
+                    int i = fromNumber;
+                    while(i <= endNumber) {
+                        numbers.add(i);
+                        i++;
+                    }
+                }
+                else {
+                    Integer i = Integer.parseInt(s);
+                    if(i == 0) {
+                        throw new IllegalArgumentException(
+                                String.format("Допускаются только номера от 1 до %d.", points.size())
+                        );
+                    }
                     numbers.add(i);
-                    i++;
                 }
             }
-            else {
-                Integer i = Integer.parseInt(s);
-                numbers.add(i);
-            }
+            selectPoints(numbers);
+            pointsTable.refresh();
+            checkSelectedPointsNumber();
+        } catch (NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Ошибка");
+            alert.setHeaderText("Недопустимое значение!");
+            alert.setContentText("Максимально возможное значение: " + points.size() + ".");
+            alert.show();
+        } catch(Exception e) {
+            showAlert(e);
         }
-        selectPoints(numbers);
-        pointsTable.refresh();
-        checkSelectedPointsNumber();
+
     }
 
     private void checkSelectedPointsNumber() {
@@ -251,13 +280,33 @@ public class SelectionController {
     }
 
     public void onCallFunctionClick() {
-        String expression = functionField.getText();
-        int pointsCount = Integer.parseInt(pointCountField.getText());
+        try {
+            String expression = functionField.getText();
+            if(expression.isEmpty()) {
+                throw new IllegalArgumentException("Нет функции.");
+            }
+            expression = expression.replaceAll(" ", "");
+            int pointsCount = Integer.parseInt(pointCountField.getText());
+            if(pointsCount > points.size()) {
+                throw new IllegalArgumentException("Недопустимое число точек.");
+            }
 
-        List<Integer> pointsNumbers = getPointsNumbers(expression, pointsCount);
-        selectPoints(pointsNumbers);
-        pointsTable.refresh();
-        checkSelectedPointsNumber();
+            List<Integer> pointsNumbers = getPointsNumbers(expression, pointsCount);
+            selectPoints(pointsNumbers);
+            pointsTable.refresh();
+            checkSelectedPointsNumber();
+        } catch (Exception e) {
+            showAlert(e);
+        }
+
+    }
+
+    private void showAlert(Exception e) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Ошибка");
+        alert.setHeaderText("Недопустимое значение!");
+        alert.setContentText(e.getMessage());
+        alert.show();
     }
 
     private void selectPoints(List<Integer> numbers) {
@@ -274,6 +323,11 @@ public class SelectionController {
         int i = 1;
         while(i <= pointsCount) {
             int number = function.calculate(i);
+            if(!(number > 0 && number <= points.size())) {
+                throw new IllegalArgumentException("Неверное значение функции:\n" +
+                        "Номер точки: " + i + "\n" +
+                        "Значение функции: " + number);
+            }
             pointsNumbers.add(number);
             i++;
         }

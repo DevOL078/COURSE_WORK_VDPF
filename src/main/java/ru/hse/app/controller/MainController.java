@@ -62,6 +62,12 @@ public class MainController {
     @FXML
     private ColorPicker pointColorPicker;
 
+    @FXML
+    private Button selectionButton;
+
+    @FXML
+    private Button searchButton;
+
     private CoordSystem coordSystem;
     private AppProperties appProperties = AppProperties.getInstance();
     private double mousePosX;
@@ -88,6 +94,13 @@ public class MainController {
 
         initSettingsValues();
         initSettingsHandlers();
+
+        settingsButton.setDisable(true);
+        animationSettingsButton.setDisable(true);
+        zoomMinusButton.setDisable(true);
+        zoomPlusButton.setDisable(true);
+        selectionButton.setDisable(true);
+        searchButton.setDisable(true);
     }
 
     private void initSettingsValues() {
@@ -204,9 +217,27 @@ public class MainController {
             return;
         }
         try {
+            VisualizationManager.getInstance().clear();
+            animationsBox.getChildren().clear();
             VisualizationManager.getInstance().buildVisualization(inputFile.getAbsolutePath());
-            AnimationSettingsVisualizer.getInstance().loadAnimations(animationsBox);
-            System.out.println("Animations menu initialized");
+            if(VisualizationManager.getInstance().getPointVisuals().size() > 0) {
+                AnimationSettingsVisualizer.getInstance().loadAnimations(animationsBox);
+                System.out.println("Animations menu initialized");
+
+                settingsButton.setDisable(false);
+                animationSettingsButton.setDisable(false);
+                zoomMinusButton.setDisable(false);
+                zoomPlusButton.setDisable(false);
+                selectionButton.setDisable(false);
+                searchButton.setDisable(false);
+            } else {
+                settingsButton.setDisable(true);
+                animationSettingsButton.setDisable(true);
+                zoomMinusButton.setDisable(true);
+                zoomPlusButton.setDisable(true);
+                selectionButton.setDisable(true);
+                searchButton.setDisable(true);
+            }
         } catch (FileNotFoundException e) {
             System.err.println("File choosing error");
         } catch (Exception e) {

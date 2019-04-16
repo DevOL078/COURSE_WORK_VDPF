@@ -24,6 +24,7 @@ public class AnimationSettingsVisualizer {
     public void loadAnimations(VBox container) {
         Map<String, IAnimation> animations = AnimationManager.getInstance().getAnimations();
         for(IAnimation animation : animations.values()) {
+            animation.init();
             AnimationWrapper wrapper = new AnimationWrapper(animation);
             wrapper.getToggleButton().setOnMouseClicked(e -> {
                 AnimationToggleButton button = wrapper.getToggleButton();

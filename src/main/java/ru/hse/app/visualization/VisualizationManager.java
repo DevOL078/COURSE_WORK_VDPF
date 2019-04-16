@@ -50,6 +50,12 @@ public class VisualizationManager {
         System.out.println("Animations initialized");
     }
 
+    public void clear() {
+        AnimationManager.getInstance().setCurrentAnimationByName(null);
+        PointsRepository.getInstance().deleteAllPoints();
+        pointVisuals = null;
+    }
+
     public Group getVisualizationGroup() {
         return visualizationGroup;
     }
