@@ -9,7 +9,7 @@ public class TestCreator {
         Random random = new Random();
         random.setSeed(10);
 
-        int size = 200;
+        int size = 1500;
         int delta = 4;
 
         try(BufferedWriter writer = new BufferedWriter(

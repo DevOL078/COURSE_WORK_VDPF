@@ -5,7 +5,7 @@ import java.io.*;
 public class AppProperties {
 
     private static AppProperties instance = new AppProperties();
-    private String configFilePath = "src/main/resources/app.config";
+    private String configFilePath = "src/main/resources/config/app.config";
     private SortedProperties prop;
 
     private AppProperties() {
@@ -61,6 +61,8 @@ public class AppProperties {
 
     public String getPointColor() {return prop.getProperty("app.point.color");}
 
+    public Double getScalingCoefficient() {return Double.parseDouble(prop.getProperty("app.point.scale.coeff"));}
+
     public void setPointSize(double value) {
         prop.setProperty("app.point.size", String.valueOf(value));
         storeConfigs();
@@ -68,6 +70,11 @@ public class AppProperties {
 
     public void setPointColor(String color) {
         prop.setProperty("app.point.color", color);
+        storeConfigs();
+    }
+
+    public void setScalingCoeff(double value) {
+        prop.setProperty("app.point.scale.coeff", String.valueOf(value));
         storeConfigs();
     }
 

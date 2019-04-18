@@ -5,6 +5,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.util.Duration;
 import ru.hse.app.animation.IAnimation;
@@ -30,9 +31,9 @@ public class DashedLinesAnimation implements IAnimation {
         List<PointVisual> pointVisuals = VisualizationManager.getInstance().getPointVisuals();
 
         for(int i = 0; i < pointVisuals.size() - 1; ++i) {
-            Point p1 = pointVisuals.get(i).getPoint();
-            Point p2 = pointVisuals.get(i+1).getPoint();
-            DynamicLine line = new DynamicLine(p1, p2);
+            Circle c1 = pointVisuals.get(i).getCircle();
+            Circle c2 = pointVisuals.get(i+1).getCircle();
+            DynamicLine line = new DynamicLine(c1, c2);
             lines.add(line);
         }
     }
@@ -59,8 +60,11 @@ public class DashedLinesAnimation implements IAnimation {
     private class DynamicLine extends Line{
         private Timeline timeline;
 
-        DynamicLine (Point start, Point end) {
-            super(start.getX(), start.getY(), end.getX(), end.getY());
+        DynamicLine (Circle start, Circle end) {
+            super.startXProperty().bind(start.centerXProperty());
+            super.startYProperty().bind(start.centerYProperty());
+            super.endXProperty().bind(end.centerXProperty());
+            super.endYProperty().bind(end.centerYProperty());
             super.getStrokeDashArray().setAll(2d, 5d);
             super.setStrokeWidth(2);
             initTimeLine();

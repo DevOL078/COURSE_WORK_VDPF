@@ -3,6 +3,7 @@ package ru.hse.app.domain;
 import javafx.scene.Group;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import ru.hse.app.config.AppProperties;
 import ru.hse.app.info.InfoManager;
 import ru.hse.app.info.InfoPane;
 import ru.hse.app.settings.VisualizationSettings;
@@ -23,8 +24,12 @@ public class PointVisual extends Group {
 
     private void initCircle() {
         circle = new Circle();
-        circle.setCenterX(point.getX());
-        circle.setCenterY(point.getY());
+//        circle.setCenterX(point.getX());
+//        circle.setCenterY(point.getY());
+        circle.centerXProperty().bind(
+                VisualizationSettings.getInstance().getScalingCoeff().multiply(point.getX()));
+        circle.centerYProperty().bind(
+                VisualizationSettings.getInstance().getScalingCoeff().multiply(point.getY()));
         circle.radiusProperty().bind(VisualizationSettings.getInstance().getPointSize());
         circle.setFill(VisualizationSettings.getInstance().getPointColorPaint());
         circle.setStroke(Paint.valueOf("BLACK"));
@@ -34,8 +39,8 @@ public class PointVisual extends Group {
 
     private void initInfoPane() {
         infoPane.setVisible(false);
-        infoPane.setTranslateX(point.getX());
-        infoPane.setTranslateY(point.getY());
+        infoPane.translateXProperty().bind(circle.centerXProperty());
+        infoPane.translateYProperty().bind(circle.centerYProperty());
         super.getChildren().add(infoPane);
     }
 

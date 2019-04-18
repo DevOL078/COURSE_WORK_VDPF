@@ -62,12 +62,14 @@ public class DynamicPointsAnimation implements IAnimation {
     private static class DynamicPoint extends Circle{
         private TranslateTransition transition;
 
-        DynamicPoint(Circle startPoint, Circle finishPoint) {
+        DynamicPoint(Circle start, Circle finish) {
             transition = new TranslateTransition(new Duration(2000));
-            transition.setFromX(startPoint.getCenterX());
-            transition.setFromY(startPoint.getCenterY());
-            transition.setToX(finishPoint.getCenterX());
-            transition.setToY(finishPoint.getCenterY());
+
+            transition.fromXProperty().bind(start.centerXProperty());
+            transition.fromYProperty().bind(start.centerYProperty());
+            transition.toXProperty().bind(finish.centerXProperty());
+            transition.toYProperty().bind(finish.centerYProperty());
+
             transition.setInterpolator(Interpolator.LINEAR);
             transition.setCycleCount(TranslateTransition.INDEFINITE);
             transition.setNode(this);

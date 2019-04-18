@@ -32,13 +32,15 @@ public class FlyingPointAnimation implements IAnimation {
         transitions = new SequentialTransition();
         List<PointVisual> points = VisualizationManager.getInstance().getPointVisuals();
         for(int i = 0; i < points.size() - 1; ++i) {
-            Point start = points.get(i).getPoint();
-            Point finish = points.get(i+1).getPoint();
+            Circle start = points.get(i).getCircle();
+            Circle finish = points.get(i+1).getCircle();
             TranslateTransition translateTransition = new TranslateTransition(new Duration(1000));
-            translateTransition.setFromX(start.getX());
-            translateTransition.setFromY(start.getY());
-            translateTransition.setToX(finish.getX());
-            translateTransition.setToY(finish.getY());
+
+            translateTransition.fromXProperty().bind(start.centerXProperty());
+            translateTransition.fromYProperty().bind(start.centerYProperty());
+            translateTransition.toXProperty().bind(finish.centerXProperty());
+            translateTransition.toYProperty().bind(finish.centerYProperty());
+
             translateTransition.setInterpolator(Interpolator.LINEAR);
             translateTransition.setNode(point);
             PauseTransition pauseTransition = new PauseTransition(new Duration(200));

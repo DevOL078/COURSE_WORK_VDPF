@@ -3,15 +3,13 @@ package ru.hse.app.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import ru.hse.app.animation.AnimationManager;
 import ru.hse.app.config.AppProperties;
 import ru.hse.app.domain.CoordAxe;
 import ru.hse.app.domain.CoordSystem;
@@ -63,6 +61,9 @@ public class MainController {
 
     @FXML
     private ColorPicker pointColorPicker;
+
+    @FXML
+    private TextField scalingCoeffTextField;
 
     @FXML
     private Button selectionButton;
@@ -124,6 +125,11 @@ public class MainController {
                         VisualizationSettings.getInstance().getPointColor().get()
                 )
         );
+        scalingCoeffTextField.setText(
+                String.valueOf(
+                        VisualizationSettings.getInstance().getScalingCoeff().get()
+                )
+        );
     }
 
     private void initSettingsHandlers() {
@@ -136,6 +142,11 @@ public class MainController {
             String value = color.toString();
             String rgbValue = value.substring(2, 8);
             VisualizationSettings.getInstance().getPointColor().set(rgbValue);
+        });
+        scalingCoeffTextField.setOnAction(e -> {
+            double value = Double.parseDouble(scalingCoeffTextField.getText());
+            VisualizationSettings.getInstance().getScalingCoeff().set(value);
+            AnimationManager.getInstance().setCurrentAnimationByName(null);
         });
     }
 
@@ -254,6 +265,8 @@ public class MainController {
             }
         } catch (FileNotFoundException e) {
             System.err.println("File choosing error");
+        } catch (NullPointerException e) {
+            System.out.println("Empty list of points for visualization");
         } catch (Exception e) {
             System.err.println("Points reading error");
         }
@@ -316,10 +329,6 @@ public class MainController {
 
     public Stage getSelectionStage() {
         return selectionStage;
-    }
-
-    public Stage getSearchStage() {
-        return searchStage;
     }
 
     public CoordSystem getCoordSystem() {

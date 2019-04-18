@@ -18,6 +18,7 @@ public class VisualizationSettings {
 
     private DoubleProperty pointSize = new SimpleDoubleProperty(appProperties.getPointSize());
     private StringProperty pointColor = new SimpleStringProperty(appProperties.getPointColor());
+    private DoubleProperty scalingCoeff = new SimpleDoubleProperty(appProperties.getScalingCoefficient());
     private Paint pointColorPaint = Paint.valueOf(pointColor.get());
 
     private VisualizationSettings() {
@@ -37,6 +38,10 @@ public class VisualizationSettings {
             }
             AppProperties.getInstance().setPointColor(pointColor.get());
         });
+        scalingCoeff.addListener(e -> {
+            System.out.println("Change scaling coefficient: " + scalingCoeff.getValue());
+            AppProperties.getInstance().setScalingCoeff(scalingCoeff.getValue());
+        });
     }
 
     public static VisualizationSettings getInstance() {
@@ -50,6 +55,8 @@ public class VisualizationSettings {
     public StringProperty getPointColor() {
         return pointColor;
     }
+
+    public DoubleProperty getScalingCoeff() {return scalingCoeff; }
 
     public Paint getPointColorPaint() {
         return pointColorPaint;
