@@ -53,4 +53,8 @@ public class AnimationSettingsVisualizer {
         }
     }
 
+    public List<AnimationWrapper> getWrappers() {
+        return this.wrappers;
+    }
+
 }

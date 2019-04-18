@@ -134,8 +134,14 @@ public class MainController {
 
     private void initSettingsHandlers() {
         pointSizeTextField.setOnAction(e -> {
-            double value = Double.parseDouble(pointSizeTextField.getText());
-            VisualizationSettings.getInstance().getPointSize().set(value);
+            try {
+                double value = Double.parseDouble(pointSizeTextField.getText());
+                pointSizeTextField.setStyle("");
+                VisualizationSettings.getInstance().getPointSize().set(value);
+            } catch (NumberFormatException ex) {
+                pointSizeTextField.setStyle("-fx-border-color: red");
+            }
+
         });
         pointColorPicker.setOnAction(e -> {
             Color color = pointColorPicker.getValue();
@@ -144,9 +150,15 @@ public class MainController {
             VisualizationSettings.getInstance().getPointColor().set(rgbValue);
         });
         scalingCoeffTextField.setOnAction(e -> {
-            double value = Double.parseDouble(scalingCoeffTextField.getText());
-            VisualizationSettings.getInstance().getScalingCoeff().set(value);
-            AnimationManager.getInstance().setCurrentAnimationByName(null);
+            try {
+                double value = Double.parseDouble(scalingCoeffTextField.getText());
+                scalingCoeffTextField.setStyle("");
+                VisualizationSettings.getInstance().getScalingCoeff().set(value);
+                AnimationManager.getInstance().setCurrentAnimationByName(null);
+                AnimationManager.getInstance().initAnimations();
+            } catch (NumberFormatException ex) {
+                scalingCoeffTextField.setStyle("-fx-border-color: red");
+            }
         });
     }
 

@@ -4,8 +4,11 @@ import ru.hse.app.animation.impls.DashedLinesAnimation;
 import ru.hse.app.animation.impls.DynamicPointsAnimation;
 import ru.hse.app.animation.impls.FlyingPointAnimation;
 import ru.hse.app.animation.impls.ScalingAnimation;
+import ru.hse.app.view.AnimationSettingsVisualizer;
+import ru.hse.app.view.ui.AnimationWrapper;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AnimationManager {
@@ -43,6 +46,10 @@ public class AnimationManager {
             currentAnimation.stop();
             System.out.println("Animation stopped");
             currentAnimation = null;
+            List<AnimationWrapper> wrapperList = AnimationSettingsVisualizer
+                    .getInstance()
+                    .getWrappers();
+            wrapperList.forEach(w -> w.getToggleButton().setIsSwitched(false));
         }
         if(name != null) {
             currentAnimation = animations.get(name);
