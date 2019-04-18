@@ -31,8 +31,6 @@ public class VisualizationManager {
         points.sort(Comparator.comparingDouble(Point::getT));
         PointsRepository.getInstance().savePoints(points);
         MainController.getController().onSelectionButtonClick();
-
-        updatePoints();
     }
 
     public void updatePoints() {

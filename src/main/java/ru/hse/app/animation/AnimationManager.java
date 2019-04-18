@@ -46,10 +46,6 @@ public class AnimationManager {
             currentAnimation.stop();
             System.out.println("Animation stopped");
             currentAnimation = null;
-            List<AnimationWrapper> wrapperList = AnimationSettingsVisualizer
-                    .getInstance()
-                    .getWrappers();
-            wrapperList.forEach(w -> w.getToggleButton().setIsSwitched(false));
         }
         if(name != null) {
             currentAnimation = animations.get(name);
@@ -58,6 +54,11 @@ public class AnimationManager {
                 currentAnimation.play();
                 System.out.println("Animation started");
             }
+        } else {
+            List<AnimationWrapper> wrapperList = AnimationSettingsVisualizer
+                    .getInstance()
+                    .getWrappers();
+            wrapperList.forEach(w -> w.getToggleButton().setIsSwitched(false));
         }
     }
 
