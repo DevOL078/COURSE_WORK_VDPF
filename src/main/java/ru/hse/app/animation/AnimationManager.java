@@ -1,9 +1,6 @@
 package ru.hse.app.animation;
 
-import ru.hse.app.animation.impls.DashedLinesAnimation;
-import ru.hse.app.animation.impls.DynamicPointsAnimation;
-import ru.hse.app.animation.impls.FlyingPointAnimation;
-import ru.hse.app.animation.impls.ScalingAnimation;
+import ru.hse.app.animation.impls.*;
 import ru.hse.app.view.AnimationSettingsVisualizer;
 import ru.hse.app.view.ui.AnimationWrapper;
 
@@ -25,12 +22,14 @@ public class AnimationManager {
         IAnimation dynamicPointsAnimation = new DynamicPointsAnimation();
         IAnimation flyingPointAnimation = new FlyingPointAnimation();
         IAnimation scalingAnimation = new ScalingAnimation();
+        IAnimation stepsAnimation = new StepsAnimation();
 
 
         animations.put(dashedLinesAnimation.getName(), dashedLinesAnimation);
         animations.put(dynamicPointsAnimation.getName(), dynamicPointsAnimation);
         animations.put(flyingPointAnimation.getName(), flyingPointAnimation);
         animations.put(scalingAnimation.getName(), scalingAnimation);
+        animations.put(stepsAnimation.getName(), stepsAnimation);
     }
 
     public static AnimationManager getInstance() {
