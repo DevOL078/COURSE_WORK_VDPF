@@ -1,11 +1,13 @@
 package ru.hse.app.config;
 
+import com.sun.javafx.fxml.PropertyNotFoundException;
+
 import java.io.*;
 
 public class AppProperties {
 
     private static AppProperties instance = new AppProperties();
-    private String configFilePath = "src/main/resources/config/app.config";
+    private String configFilePath = "src/main/resources/config/app.config" /*"./app.config"*/ ;
     private SortedProperties prop;
 
     private AppProperties() {
@@ -34,15 +36,15 @@ public class AppProperties {
     }
 
     public int getWindowWidth() {
-        return Integer.parseInt(prop.getProperty("app.window.width"));
+        return 1024;
     }
 
     public int getWindowHeight() {
-        return Integer.parseInt(prop.getProperty("app.window.height"));
+        return 640;
     }
 
     public double getScrollOffset() {
-        return Double.parseDouble(prop.getProperty("app.camera.offset"));
+        return 20;
     }
 
     public double getFarClip() {
@@ -50,11 +52,11 @@ public class AppProperties {
     }
 
     public double getCameraAngle() {
-        return Double.parseDouble(prop.getProperty("app.camera.angle"));
+        return 90;
     }
 
     public int getPointsMaxNumber() {
-        return Integer.parseInt(prop.getProperty("app.points.max.number"));
+        return 1000;
     }
 
     public double getPointSize() {return Double.parseDouble(prop.getProperty("app.point.size"));}

@@ -279,8 +279,18 @@ public class MainController {
             System.err.println("File choosing error");
         } catch (NullPointerException e) {
             System.out.println("Empty list of points for visualization");
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("Нет точек для построения");
+            alert.setContentText("Выборка точек для построения пуста. Нажмите 'Сохранить' в окне выбора точек для построения.");
+            alert.setTitle("Предупреждение");
+            alert.show();
         } catch (Exception e) {
             System.err.println("Points reading error");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Ошибка чтения файла");
+            alert.setContentText("Выбранный файл не соответствует формату.");
+            alert.setTitle("Ошибка");
+            alert.show();
         }
     }
 
