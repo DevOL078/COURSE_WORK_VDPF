@@ -1,5 +1,6 @@
 package ru.hse.app.animation.impls;
 
+import javafx.animation.Animation;
 import javafx.animation.ScaleTransition;
 import javafx.animation.SequentialTransition;
 import javafx.scene.shape.Circle;
@@ -30,6 +31,7 @@ public class StepsAnimation implements IAnimation {
 
             sequentialTransition.getChildren().add(transition);
         }
+        sequentialTransition.setCycleCount(Animation.INDEFINITE);
     }
 
     @Override
