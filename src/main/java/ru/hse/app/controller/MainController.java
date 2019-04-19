@@ -264,8 +264,8 @@ public class MainController {
 
                 int allPointsSize = PointsRepository.getInstance().getAllPoints().size();
                 int visualPointsSize = VisualizationManager.getInstance().getPointVisuals().size();
-                allPointsLabel.setText("Всего точек: " + allPointsSize);
-                visualPointsLabel.setText("На графике: " + visualPointsSize);
+                allPointsLabel.setText("Точек в файле: " + allPointsSize);
+                visualPointsLabel.setText("Точек на плоскости: " + visualPointsSize);
             } else {
                 settingsButton.setDisable(true);
                 animationSettingsButton.setDisable(true);
